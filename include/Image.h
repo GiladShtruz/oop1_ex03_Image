@@ -1,15 +1,22 @@
 #pragma once
 #include "ImageDataStructure.h"
 #include "Pixel.h"
-class Image {
+class Image
+{
 public:
-	Image():m_Height(0),m_Height(0),m_image(0)
+	Image();
 	Image(int height, int width);
 	Image(int height, int width, Pixel pixel);
-	print();
-
+	void operator+=(const Image& other);
 private:
-	ImageDataStructure m_image;
-	unsigned int m_Height;
-	unsigned int m_Width;
+	ImageDataStructure mImage;
 };
+
+bool operator==(const Image& a, const Image& b);
+bool operator!=(const Image& a, const Image& b);
+Image operator+(const Image& a, const Image& b);
+Image operator|(const Image& a, const Image& b);
+Image operator|=(const Image& a, const Image& b);
+Image operator&(const Image& a, const Image& b);
+Image operator&=(const Image& a, const Image& b);
+std::ostream& operator<<(std::ostream& os, const Image& a);
