@@ -36,6 +36,7 @@ Pixel& operator&=(Pixel& a, const Pixel& b)
 	return temp;
 }
 
+
 Pixel operator|(const Pixel& a, const Pixel& b)
 {
 	if (a.getColor() > b.getColor())
@@ -51,3 +52,16 @@ Pixel& operator|=(Pixel& a, const Pixel& b)
 }
 
 
+Pixel operator~(const Pixel& a)
+{
+	switch (a.getColor())
+	{
+	case BLACK:
+		return Pixel(WHITE);
+	case WHITE:
+		return Pixel(BLACK);
+	default:
+	case GRAY:
+		return Pixel(GRAY);
+	}
+}

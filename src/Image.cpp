@@ -209,3 +209,17 @@ Image operator*=(Image& a, unsigned int n)
 	return tempImage;
 }
 
+Image operator~(const Image& a)
+{
+	Image temp(a);
+	for (int rowIndex = 0; rowIndex < a.getHeight(); rowIndex++)
+	{
+		for (int colIndex = 0 ; colIndex < a.getWidth(); colIndex++)
+		{
+			Pixel tempPixel = a.m_imageDataStructure.getPixel(rowIndex, colIndex);
+			temp.m_imageDataStructure.paintPixel(rowIndex, colIndex, ~tempPixel);	
+		}
+	}
+	return temp;
+}
+

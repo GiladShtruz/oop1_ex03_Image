@@ -19,4 +19,5 @@ Pixel operator&(const Pixel& a, const Pixel& b);
 Pixel& operator&=(Pixel& a, const Pixel& b);
 Pixel operator|(const Pixel& a, const Pixel& b);
 Pixel& operator|=(Pixel& a, const Pixel& b);
+Pixel operator~(const Pixel& a);
 std::ostream& operator<<(std::ostream& os, const Pixel& other);
