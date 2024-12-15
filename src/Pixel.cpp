@@ -13,6 +13,7 @@ unsigned char Pixel::getColor() const
 
 bool operator==(const Pixel& a, const Pixel& b)
 {
+	
 	return a.getColor() == b.getColor();
 }
 
@@ -49,8 +50,4 @@ Pixel& operator|=(Pixel& a, const Pixel& b)
 	return temp;
 }
 
-std::ostream& operator<<(std::ostream& os, const Pixel& pixel)
-{
-	os << pixel.getColor();
-	return os;
-}
+

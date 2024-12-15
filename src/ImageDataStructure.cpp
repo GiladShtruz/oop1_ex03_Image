@@ -2,55 +2,104 @@
 
 
 ImageDataStructure::ImageDataStructure()
-:mHeight(0), mWidth(0), mImage(nullptr){}
+{
+	m_height = 0;
+	m_width = 0;
+	m_pixels = nullptr;
+}
 
 ImageDataStructure::ImageDataStructure(int height, int width)
-	:mHeight(height), mWidth(width), mImage(colorImage(Pixel(WHITE))){}
+{
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			Pixel pixel = Pixel(WHITE);
+			m_pixels[i][j] = pixel;
+		}
+	}
+	m_height = height;
+	m_width = width;
+}
 
 ImageDataStructure::ImageDataStructure(int height, int width, Pixel pixel)
-	:mHeight(height), mWidth(width), mImage(colorImage(pixel)){}
-
-Pixel** ImageDataStructure::cloneImage(const ImageDataStructure& other)
 {
-	Pixel** newImage = new Pixel * [other.mHeight];
-	for (int rowIndex = 0; rowIndex < other.mHeight; rowIndex++)
+	for (int i = 0; i < height; i++)
 	{
-		newImage[rowIndex] = new Pixel[other.mHeight];
-		for (int colIndex = 0; colIndex < other.mHeight; colIndex++)
+		for (int j = 0; j < width; j++)
 		{
-			newImage[rowIndex][colIndex] = other.mImage[rowIndex][colIndex];
+			Pixel newPixel = Pixel(pixel.getColor());
+			m_pixels[i][j] = newPixel;
 		}
 	}
-	return newImage;
+	m_height = height;
+	m_width = width;
 }
 
-Pixel** ImageDataStructure::whiteImage()
+void ImageDataStructure::paintPixel(int row, int col, Pixel pixel)
 {
-	return colorImage(WHITE);
+	m_pixels[row][col] = pixel;
 }
 
-ImageDataStructure::~ImageDataStructure()
+void ImageDataStructure::paintAll(ImageDataStructure imageDataStructure)
 {
-	for (int rowIndex = 0; rowIndex < this->mHeight; rowIndex++)
+	for (int i = 0; i < m_height; i++)
 	{
-		delete[] this->mImage[rowIndex];
-	}
-	delete[] this->mImage;
-}
-
-Pixel** ImageDataStructure::colorImage(Pixel pixel)
-{
-	Pixel** newPixel = new Pixel * [mHeight];
-	for (int rowIndex = 0; rowIndex < mHeight; rowIndex++)
-	{
-		newPixel[rowIndex] = new Pixel[mWidth];
-		for (int colIndex = 0; colIndex < mWidth; colIndex++)
+		for (int j = 0; j < m_width; j++)
 		{
-			newPixel[rowIndex][colIndex] = pixel.getColor();
+			paintPixel(i, j, imageDataStructure.getPixel(i, j));
 		}
 	}
-	return newPixel;
 }
+
+Pixel ImageDataStructure::getPixel(int row, int col) const
+{
+	return m_pixels[row][col];
+}
+
+//Pixel** ImageDataStructure::cloneImage(const ImageDataStructure& other)
+//{
+//	Pixel** newImage = new Pixel * [other.mHeight];
+//	for (int rowIndex = 0; rowIndex < other.mHeight; rowIndex++)
+//	{
+//		newImage[rowIndex] = new Pixel[other.mHeight];
+//		for (int colIndex = 0; colIndex < other.mHeight; colIndex++)
+//		{
+//			newImage[rowIndex][colIndex] = other.mImage[rowIndex][colIndex];
+//		}
+//	}
+//	return newImage;
+//}
+//
+//Pixel** ImageDataStructure::whiteImage()
+//{
+//	return colorImage(WHITE);
+//}
+//
+//ImageDataStructure::~ImageDataStructure()
+//{
+//	for (int rowIndex = 0; rowIndex < this->mHeight; rowIndex++)
+//	{
+//		delete[] this->mImage[rowIndex];
+//	}
+//	delete[] this->mImage;
+//}
+//
+//Pixel** ImageDataStructure::colorImage(Pixel pixel)
+//{
+//	Pixel** newPixel = new Pixel * [mHeight];
+//	for (int rowIndex = 0; rowIndex < mHeight; rowIndex++)
+//	{
+//		newPixel[rowIndex] = new Pixel[mWidth];
+//		for (int colIndex = 0; colIndex < mWidth; colIndex++)
+//		{
+//			newPixel[rowIndex][colIndex] = pixel.getColor();
+//		}
+//	}
+//	return newPixel;
+//}
+
+
 
 
 
