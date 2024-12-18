@@ -9,8 +9,11 @@ class Pixel {
 public:
 	Pixel(unsigned char color = ' ');
 	unsigned char getColor()const;
+	void setPixel(unsigned char color);
+	//Pixel operator=(const Pixel& b);
 private:
-	unsigned char m_color = WHITE;
+	bool validColor(unsigned int color);
+	unsigned char m_color;
 
 };
 bool operator==(const Pixel& a, const Pixel& b);
@@ -19,4 +22,5 @@ Pixel operator&(const Pixel& a, const Pixel& b);
 Pixel& operator&=(Pixel& a, const Pixel& b);
 Pixel operator|(const Pixel& a, const Pixel& b);
 Pixel& operator|=(Pixel& a, const Pixel& b);
-std::ostream& operator<<(std::ostream& os, const Pixel& other);
+Pixel operator~(const Pixel& a);
+std::ostream& operator<<(std::ostream& os, const Pixel& a);

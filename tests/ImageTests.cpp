@@ -45,3 +45,7 @@ TEST_CASE("Empty Image", "[Image]")
     }
 
 }
+TEST_CASE("operator |", "[image]")
+{
+
+}

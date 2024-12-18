@@ -1,8 +1,11 @@
 #include "Pixel.h"
 #include <ostream>
+#include <iostream>
 
 Pixel::Pixel(unsigned char color)
-	:m_color(color){}
+{
+	m_color = color;
+}
 
 
 unsigned char Pixel::getColor() const
@@ -10,9 +13,30 @@ unsigned char Pixel::getColor() const
 	return m_color;
 }
 
+void Pixel::setPixel(unsigned char color)
+{
+	if (validColor(color))
+	{
+		this->m_color = color;
+	}
+}
+
+//Pixel Pixel::operator=(const Pixel& b)
+//{
+//	m_color = b.m_color;
+//	return *this;
+//}
+
+bool Pixel::validColor(unsigned int color)
+{
+	if (color == BLACK || color == WHITE || color == GRAY)
+		return true;
+	return false;
+}
 
 bool operator==(const Pixel& a, const Pixel& b)
 {
+	
 	return a.getColor() == b.getColor();
 }
 
@@ -35,6 +59,7 @@ Pixel& operator&=(Pixel& a, const Pixel& b)
 	return temp;
 }
 
+
 Pixel operator|(const Pixel& a, const Pixel& b)
 {
 	if (a.getColor() > b.getColor())
@@ -49,8 +74,23 @@ Pixel& operator|=(Pixel& a, const Pixel& b)
 	return temp;
 }
 
-std::ostream& operator<<(std::ostream& os, const Pixel& pixel)
+
+Pixel operator~(const Pixel& a)
 {
-	os << pixel.getColor();
+	switch (a.getColor())
+	{
+	case BLACK:
+		return Pixel(WHITE);
+	case WHITE:
+		return Pixel(BLACK);
+	default:
+	case GRAY:
+		return Pixel(GRAY);
+	}
+}
+
+std::ostream& operator<<(std::ostream& os, const Pixel& a)
+{
+	os << a.getColor();
 	return os;
 }
