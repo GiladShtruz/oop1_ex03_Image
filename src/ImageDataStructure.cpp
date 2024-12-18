@@ -83,10 +83,10 @@ Pixel** ImageDataStructure::cloneImage(const ImageDataStructure& other)
 	Pixel** newImage = new Pixel * [other.mHeight];
 	for (int rowIndex = 0; rowIndex < other.mHeight; rowIndex++)
 	{
-		newImage[rowIndex] = new Pixel[other.mHeight];
+		newImage[rowIndex] = new Pixel[other.mWidth];
 		for (int col = 0; col < other.mWidth; col++)
 		{
-			newImage[rowIndex][col] = Pixel(other.mPixels[rowIndex][col].getColor());
+			newImage[rowIndex][col] = other.mPixels[rowIndex][col];
 		}
 	}
 	return newImage;
