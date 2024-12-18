@@ -3,27 +3,21 @@
 #include "ImageDataStructure.h"
 #include "iostream"
 
-Image::Image() {
-	m_height = 0;
-	m_width = 0;
-	m_imageDataStructure = ImageDataStructure();
-}
+Image::Image() 
+	:m_height(0), m_width(0),
+	m_imageDataStructure(ImageDataStructure())
+{}
 
 Image::Image(int height, int width)
-{
-	m_height = height;
-	m_width = width;
-	m_imageDataStructure = ImageDataStructure(height, width);
-}
+	:m_height(height), m_width(width),
+	m_imageDataStructure(ImageDataStructure(height, width))
+{}
 
 Image::Image(int height, int width, Pixel pixel)
+	:m_height(height), m_width(width), 
+	m_imageDataStructure(ImageDataStructure(height, width))
 {
-	m_height = height;
-	m_width = width;
-	m_imageDataStructure = ImageDataStructure(height, width);
-	this->paint(pixel);
-	std::cout << "m_imageDataStructure.mPixels[0][0]";
-	std::cout << m_imageDataStructure.mPixels[0][0].getColor();
+	paint(pixel);
 }
 
 unsigned int Image::GetWidth() const {
@@ -37,15 +31,38 @@ unsigned int Image::GetHeight() const
 //this operator return by reference (x,y) pixel
 Pixel& Image::operator()(unsigned int x, unsigned int y)
 {
-	if (this->isInBond(x, y))
+	if (isInBond(x, y) && m_imageDataStructure.mPixels != nullptr)
 		return m_imageDataStructure.mPixels[x][y];
 	else
-		return m_imageDataStructure.mPixels[0][0];
+	{
+		Pixel defaulePixel = Pixel();
+		return defaulePixel;
+	}
 }
+
+Image& Image::operator=(const Image& other)
+{
+	m_height = other.GetHeight();
+	m_width = other.GetWidth();
+	if (this != &other)
+	{
+		m_imageDataStructure = other.m_imageDataStructure;
+		return *this;
+	}
+	return *this;
+}
+
 
 const Pixel& Image::operator()(unsigned int x, unsigned int y) const
 {
-	return (x,y);
+
+	if (m_imageDataStructure.mPixels != nullptr)
+		return (const Pixel)m_imageDataStructure.mPixels[x][y];
+	else
+	{
+		Pixel defaulePixel = Pixel();
+		return defaulePixel;
+	}
 }
 
 bool Image::isInBond(unsigned int x, unsigned int y)
@@ -61,8 +78,8 @@ void Image::paint(Pixel pixel)
 	{
 		for (int colIndex = 0; colIndex < m_width; colIndex++)
 		{
-			//m_imageDataStructure.mPixels[rowIndex][colIndex] = pixel.getColor();
-			m_imageDataStructure.mPixels[rowIndex][colIndex] = Pixel(pixel.getColor());
+			//(rowIndex, colIndex) = pixel.getColor();
+			m_imageDataStructure.mPixels[rowIndex][colIndex].setPixel(pixel.getColor());// = pixel.getColor();
 		}
 	}
 }
@@ -96,24 +113,26 @@ bool operator!=(const Image& a, const Image& b) {
 
 Image operator+(const Image& a, const Image& b)
 {
+	if (a.GetHeight() == 0 || a.GetWidth() == 0) return b;
+	if (b.GetHeight() == 0 || b.GetWidth() == 0) return a;
 	int newHeight = std::max(a.GetHeight(), b.GetHeight());
 	int newWidth = a.GetWidth() + b.GetWidth();
-	Image newImage = Image(newHeight, newWidth, Pixel(WHITE));
+	Image newImage(newHeight, newWidth);
 	//paint first image
 	for (int rowIndex = 0; rowIndex < a.GetHeight(); rowIndex++)
 	{
 		for (int colIndex = 0; colIndex < a.GetWidth(); colIndex++)
 		{
-			std::cerr << (a(rowIndex, colIndex)).getColor();
-			newImage(rowIndex, colIndex) = Pixel(a(rowIndex, colIndex));
+			newImage(rowIndex, colIndex) = a(rowIndex, colIndex);
 		}
 	}	
 	//paint seconed image
 	for (int rowIndex = 0; rowIndex < b.GetHeight(); rowIndex++)
 	{
-		for (int colIndex = a.GetWidth(); colIndex < newWidth; colIndex++)
+		for (int colIndex = 0; colIndex < b.GetWidth(); colIndex++)
 		{
-			newImage(rowIndex, colIndex) = Pixel(b(rowIndex, colIndex));
+			
+			newImage(rowIndex, colIndex+ a.GetWidth()) = b(rowIndex, colIndex);
 		}
 	}
 	return newImage;

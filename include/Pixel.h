@@ -13,7 +13,7 @@ public:
 	//Pixel operator=(const Pixel& b);
 private:
 	bool validColor(unsigned int color);
-	unsigned char m_color = WHITE;
+	unsigned char m_color;
 
 };
 bool operator==(const Pixel& a, const Pixel& b);

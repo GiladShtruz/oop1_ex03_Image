@@ -4,7 +4,6 @@
 
 Pixel::Pixel(unsigned char color)
 {
-	std::cout << color;
 	m_color = color;
 }
 
@@ -18,13 +17,13 @@ void Pixel::setPixel(unsigned char color)
 {
 	if (validColor(color))
 	{
-		m_color = color;
+		this->m_color = color;
 	}
 }
 
 //Pixel Pixel::operator=(const Pixel& b)
 //{
-//	setPixel(b.getColor());
+//	m_color = b.m_color;
 //	return *this;
 //}
 

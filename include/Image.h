@@ -10,6 +10,7 @@ public:
 	unsigned int GetHeight() const;
 	unsigned int GetWidth() const;
 	Pixel& operator()(unsigned int x,unsigned int y);
+	Image& operator=(const Image& other);
 	const Pixel& operator()(unsigned int x,unsigned int y)const;
 private:
 	ImageDataStructure m_imageDataStructure;
