@@ -6,24 +6,28 @@ class ImageDataStructure {
 public:
 	ImageDataStructure();
 	ImageDataStructure(int height, int width);
-	ImageDataStructure(int height, int width, Pixel pixel);
-	void paintPixel(int row, int col, Pixel pixel);
-	void paintAll(ImageDataStructure imageDataStructure);
-	Pixel getPixel(int row, int col) const;
+	ImageDataStructure(const ImageDataStructure& other);
+	ImageDataStructure& operator=(const ImageDataStructure& other);
+	~ImageDataStructure();
+	Pixel** mPixels;
+	//ImageDataStructure(int height, int width, Pixel pixel);
+	//void paintPixel(int row, int col, Pixel pixel);
+	//void paintAll(ImageDataStructure imageDataStructure);
+	//Pixel getPixel(int row, int col) const;
 
 
 
-	//Pixel** cloneImage(const ImageDataStructure& other);
 	//Pixel** whiteImage();
-	//~ImageDataStructure();
 	//Pixel** colorImage(Pixel pixel);
 	
 
 private:
-	Pixel** m_pixels;
-	int m_height;
-	int m_width;
+	Pixel** cloneImage(const ImageDataStructure& other);
+	void cleanPixel();
+	int mHeight;
+	int mWidth;
 };
+
 
 
 

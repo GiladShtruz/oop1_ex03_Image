@@ -3,45 +3,61 @@
 
 ImageDataStructure::ImageDataStructure()
 {
-	m_height = 0;
-	m_width = 0;
-	m_pixels = nullptr;
+	mHeight = 0;
+	mWidth = 0;
+	mPixels = nullptr;
 }
 
 ImageDataStructure::ImageDataStructure(int height, int width)
+	:mHeight(height), mWidth(width)
 {
-	for (int i = 0; i < height; i++)
+	mPixels = new Pixel * [height];
+	for (int rowIndex = 0; rowIndex < height; rowIndex++)
 	{
-		for (int j = 0; j < width; j++)
+		mPixels[rowIndex] = new Pixel[width];	
+		for (int colIndex = 0; colIndex < width; colIndex++)
 		{
-			Pixel pixel = Pixel(WHITE);
-			m_pixels[i][j] = pixel;
+			mPixels[rowIndex][colIndex] = Pixel();
 		}
 	}
-	m_height = height;
-	m_width = width;
 }
-
-ImageDataStructure::ImageDataStructure(int height, int width, Pixel pixel)
+ImageDataStructure::ImageDataStructure(const ImageDataStructure& other)
+	:mHeight(other.mHeight), mWidth(other.mWidth)
 {
-	for (int i = 0; i < height; i++)
+	mPixels = cloneImage(other);
+}
+ImageDataStructure& ImageDataStructure::operator=(const ImageDataStructure& other)
+{
+	if (this != &other)
 	{
-		for (int j = 0; j < width; j++)
-		{
-			Pixel newPixel = Pixel(pixel.getColor());
-			m_pixels[i][j] = newPixel;
-		}
+		cleanPixel();
+		mPixels = cloneImage(other);
+		return *this;
 	}
-	m_height = height;
-	m_width = width;
 }
-
-void ImageDataStructure::paintPixel(int row, int col, Pixel pixel)
+//ImageDataStructure& ImageDataStructure::operator=(const ImageDataStructure& other)
+// 
+//{
+//	if (this != &other)
+//	{
+//		this->cleanPixel();
+//		ImageDataStructure temp(other);
+//		return temp;
+//	}
+//	ImageDataStructure temp = ImageDataStructure(other);
+//	return temp;
+//}
+ImageDataStructure::~ImageDataStructure()
 {
-	m_pixels[row][col] = pixel;
+	cleanPixel();
 }
+//
+//void ImageDataStructure::paintPixel(int row, int col, Pixel pixel)
+//{
+//	m_pixels[row][col] = pixel;
+//}
 
-void ImageDataStructure::paintAll(ImageDataStructure imageDataStructure)
+/*void ImageDataStructure::paintAll(ImageDataStructure imageDataStructure)
 {
 	for (int i = 0; i < m_height; i++)
 	{
@@ -50,54 +66,38 @@ void ImageDataStructure::paintAll(ImageDataStructure imageDataStructure)
 			paintPixel(i, j, imageDataStructure.getPixel(i, j));
 		}
 	}
-}
+}*/
 
-Pixel ImageDataStructure::getPixel(int row, int col) const
+//Pixel ImageDataStructure::getPixel(int row, int col) const
+//{
+//	return m_pixels[row][col];
+//}
+
+Pixel** ImageDataStructure::cloneImage(const ImageDataStructure& other)
 {
-	return m_pixels[row][col];
+	Pixel** newImage = new Pixel * [other.mHeight];
+	for (int rowIndex = 0; rowIndex < other.mHeight; rowIndex++)
+	{
+		newImage[rowIndex] = new Pixel[other.mHeight];
+		for (int colIndex = 0; colIndex < other.mHeight; colIndex++)
+		{
+			newImage[rowIndex][colIndex].setPixel(other.mPixels[rowIndex][colIndex].getColor());
+		}
+	}
+	return newImage;
 }
-
-//Pixel** ImageDataStructure::cloneImage(const ImageDataStructure& other)
-//{
-//	Pixel** newImage = new Pixel * [other.mHeight];
-//	for (int rowIndex = 0; rowIndex < other.mHeight; rowIndex++)
-//	{
-//		newImage[rowIndex] = new Pixel[other.mHeight];
-//		for (int colIndex = 0; colIndex < other.mHeight; colIndex++)
-//		{
-//			newImage[rowIndex][colIndex] = other.mImage[rowIndex][colIndex];
-//		}
-//	}
-//	return newImage;
-//}
-//
-//Pixel** ImageDataStructure::whiteImage()
-//{
-//	return colorImage(WHITE);
-//}
-//
-//ImageDataStructure::~ImageDataStructure()
-//{
-//	for (int rowIndex = 0; rowIndex < this->mHeight; rowIndex++)
-//	{
-//		delete[] this->mImage[rowIndex];
-//	}
-//	delete[] this->mImage;
-//}
-//
-//Pixel** ImageDataStructure::colorImage(Pixel pixel)
-//{
-//	Pixel** newPixel = new Pixel * [mHeight];
-//	for (int rowIndex = 0; rowIndex < mHeight; rowIndex++)
-//	{
-//		newPixel[rowIndex] = new Pixel[mWidth];
-//		for (int colIndex = 0; colIndex < mWidth; colIndex++)
-//		{
-//			newPixel[rowIndex][colIndex] = pixel.getColor();
-//		}
-//	}
-//	return newPixel;
-//}
+void ImageDataStructure::cleanPixel()
+{
+	if (mPixels != nullptr)
+	{
+		for (int rowIndex = 0; rowIndex < this->mHeight; rowIndex++)
+		{
+			delete[] this->mPixels[rowIndex];
+		}
+		delete[] this->mPixels;
+	}
+	mPixels = nullptr;
+}
 
 
 

@@ -7,12 +7,14 @@ public:
 	Image();
 	Image(int height, int width);
 	Image(int height, int width, Pixel pixel);
-	unsigned int getWidth() const;
-	unsigned int getHeight() const;
-	ImageDataStructure m_imageDataStructure;
-	
-	
+	unsigned int GetHeight() const;
+	unsigned int GetWidth() const;
+	Pixel& operator()(unsigned int x,unsigned int y);
+	const Pixel& operator()(unsigned int x,unsigned int y)const;
 private:
+	ImageDataStructure m_imageDataStructure;
+	bool isInBond(unsigned int x, unsigned int y);
+	void paint(Pixel pixel);
 	unsigned int m_height;
 	unsigned int m_width;
 	
@@ -32,6 +34,7 @@ Image operator&=(Image& a, const Image& b);
 Image operator*(const Image& a, unsigned int n);
 Image operator*(unsigned int n,const Image& a);
 Image operator*=(Image& a, unsigned int n);
-Image operator~(const Image& a);
+Image operator~(Image& a);
+
 
 // void operator+=(const Image& other);

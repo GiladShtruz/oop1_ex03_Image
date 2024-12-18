@@ -1,12 +1,13 @@
 #include "catch2/catch.hpp"
-
+#include "iostream"
 #include "Image.h"
 
 TEST_CASE("Image supports basic operations", "[Image]")
 {
-    const auto img1 = Image(5, 2);
+    const auto img1 = Image(5, 2, Pixel(GRAY));
     const auto img2 = Image(2, 5);
-
+    std::cout << img1(1, 1);
+    std::cout << "hi\n";
     SECTION("GetHeight, GetWidth works")
     {
         REQUIRE(img1.GetHeight() == 5);
