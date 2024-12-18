@@ -21,11 +21,11 @@ void Pixel::setPixel(unsigned char color)
 	}
 }
 
-//Pixel Pixel::operator=(const Pixel& b)
-//{
-//	m_color = b.m_color;
-//	return *this;
-//}
+Pixel Pixel::operator=(const Pixel& b)
+{
+	m_color = b.m_color;
+	return *this;
+}
 
 bool Pixel::validColor(unsigned int color)
 {

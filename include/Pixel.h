@@ -10,7 +10,7 @@ public:
 	Pixel(unsigned char color = ' ');
 	unsigned char getColor()const;
 	void setPixel(unsigned char color);
-	//Pixel operator=(const Pixel& b);
+	Pixel operator=(const Pixel& b);
 private:
 	bool validColor(unsigned int color);
 	unsigned char m_color;
