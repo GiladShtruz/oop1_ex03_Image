@@ -4,7 +4,7 @@
 ImageDataStructure::ImageDataStructure()
 	:mHeight(0), mWidth(0)
 {
-	mPixels = new Pixel * [0];
+	mPixels = nullptr;
 }
 
 ImageDataStructure::ImageDataStructure(int height, int width)
@@ -27,17 +27,16 @@ ImageDataStructure::ImageDataStructure(const ImageDataStructure& other)
 }
 ImageDataStructure& ImageDataStructure::operator=(const ImageDataStructure& other)
 {
+	mHeight = other.mHeight;
+	mWidth = other.mWidth;
 	if (this != &other)
 	{
 		if (this->mPixels != nullptr)
 		{
 		   cleanPixel();
 		}
-		mPixels = cloneImage(other);
-		return *this;
 	}
-	mHeight = other.mHeight;
-	mWidth = other.mWidth;
+	mPixels = cloneImage(other);
 	return *this;
 }
 //ImageDataStructure& ImageDataStructure::operator=(const ImageDataStructure& other)
@@ -83,10 +82,10 @@ Pixel** ImageDataStructure::cloneImage(const ImageDataStructure& other)
 	Pixel** newImage = new Pixel * [other.mHeight];
 	for (int rowIndex = 0; rowIndex < other.mHeight; rowIndex++)
 	{
-		newImage[rowIndex] = new Pixel[other.mHeight];
+		newImage[rowIndex] = new Pixel[other.mWidth];
 		for (int col = 0; col < other.mWidth; col++)
 		{
-			newImage[rowIndex][col] = Pixel(other.mPixels[rowIndex][col].getColor());
+			newImage[rowIndex][col] = other.mPixels[rowIndex][col];
 		}
 	}
 	return newImage;

@@ -31,13 +31,7 @@ unsigned int Image::GetHeight() const
 //this operator return by reference (x,y) pixel
 Pixel& Image::operator()(unsigned int x, unsigned int y)
 {
-	if (isInBond(x, y) && m_imageDataStructure.mPixels != nullptr)
 		return m_imageDataStructure.mPixels[x][y];
-	else
-	{
-		Pixel defaulePixel = Pixel();
-		return defaulePixel;
-	}
 }
 
 Image& Image::operator=(const Image& other)
@@ -55,22 +49,9 @@ Image& Image::operator=(const Image& other)
 
 const Pixel& Image::operator()(unsigned int x, unsigned int y) const
 {
-
-	if (m_imageDataStructure.mPixels != nullptr)
-		return (const Pixel)m_imageDataStructure.mPixels[x][y];
-	else
-	{
-		Pixel defaulePixel = Pixel();
-		return defaulePixel;
-	}
+		return m_imageDataStructure.mPixels[x][y];
 }
 
-bool Image::isInBond(unsigned int x, unsigned int y)
-{
-	if(x < m_width && y < m_height)
-		return true;
-	return false;
-}
 
 void Image::paint(Pixel pixel)
 {
@@ -169,8 +150,7 @@ Image operator+(const Image& a, const Image& b)
 */
 Image operator+=(Image& a, const Image& b)
 {
-	Image temp = (a + b);
-	a = temp;
+	a = a+b;
 	return a;
 }
 
@@ -237,8 +217,10 @@ Image operator&=(Image& a, const Image& b)
 }
 Image operator*(const Image& a, unsigned int n)
 {
-	Image finalImage = Image();
-	for (int i = 0; i < n; i++)
+	
+	Image finalImage = a;
+	//if (n == 1) return finalImage;
+	for (int i = 1; i < n; i++)
 	{
 		finalImage += a;
 	}
@@ -257,14 +239,14 @@ Image operator*=(Image& a, unsigned int n)
 	return tempImage;
 }
 
-Image operator~(Image& a)
+Image operator~(const Image& a)
 {
-	Image temp(a);
+	Image temp = a;
 	for (int rowIndex = 0; rowIndex < a.GetHeight(); rowIndex++)
 	{
 		for (int colIndex = 0 ; colIndex < a.GetWidth(); colIndex++)
 		{
-			~a(rowIndex, colIndex);
+			temp(rowIndex,colIndex) = ~a(rowIndex, colIndex);
 		}
 	}
 	return temp;
