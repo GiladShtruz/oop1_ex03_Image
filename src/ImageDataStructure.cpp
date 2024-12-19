@@ -27,16 +27,16 @@ ImageDataStructure::ImageDataStructure(const ImageDataStructure& other)
 }
 ImageDataStructure& ImageDataStructure::operator=(const ImageDataStructure& other)
 {
-	mHeight = other.mHeight;
-	mWidth = other.mWidth;
 	if (this != &other)
 	{
 		if (this->mPixels != nullptr)
 		{
 		   cleanPixel();
 		}
+		mHeight = other.mHeight;
+		mWidth = other.mWidth;
+		mPixels = cloneImage(other);
 	}
-	mPixels = cloneImage(other);
 	return *this;
 }
 //ImageDataStructure& ImageDataStructure::operator=(const ImageDataStructure& other)

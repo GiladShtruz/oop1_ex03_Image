@@ -190,9 +190,9 @@ Image operator|(const Image& a, const Image& b)
 
 Image operator|=(Image& a, const Image& b)
 {
-	Image newImage = a | b;
-	a = newImage;
-	return newImage;
+	Image temp = a | b;
+	a = temp;
+	return a ;
 }
 Image operator&(const Image& a, const Image& b)
 {
@@ -203,7 +203,7 @@ Image operator&(const Image& a, const Image& b)
 	{
 		for (int colIndex = 0; colIndex < newWidth; colIndex++)
 		{
-			newImage(rowIndex, colIndex) = a(rowIndex, colIndex) & newImage(rowIndex, colIndex);
+			newImage(rowIndex, colIndex) = a(rowIndex, colIndex) & b(rowIndex, colIndex);
 		}
 	}
 	return newImage;
@@ -211,9 +211,8 @@ Image operator&(const Image& a, const Image& b)
 
 Image operator&=(Image& a, const Image& b)
 {
-	Image tempImage = a & b;
-	a = tempImage;
-	return tempImage;
+	a = a & b;
+	return a;
 }
 Image operator*(const Image& a, unsigned int n)
 {
