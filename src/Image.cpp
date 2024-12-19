@@ -59,8 +59,7 @@ void Image::paint(Pixel pixel)
 	{
 		for (int colIndex = 0; colIndex < m_width; colIndex++)
 		{
-			//(rowIndex, colIndex) = pixel.getColor();
-			m_imageDataStructure.mPixels[rowIndex][colIndex].setPixel(pixel.getColor());// = pixel.getColor();
+			m_imageDataStructure.mPixels[rowIndex][colIndex] = pixel;
 		}
 	}
 }
@@ -118,36 +117,7 @@ Image operator+(const Image& a, const Image& b)
 	}
 	return newImage;
 }
-/*
-Image operator+(const Image& a, const Image& b)
-{
-	int newHeight = std::max(a.GetHeight(), b.GetHeight());
-	int newWidth = a.GetWidth() + b.GetWidth();
-	
-	ImageDataStructure newImageDataStructure = ImageDataStructure(newHeight,newWidth);
-	// paint first image:
-	for (int i = 0; i < a.GetHeight(); i++)
-	{
-		for (int j = 0; j < a.GetWidth(); j++)
-		{
-			Pixel pixel = a.m_imageDataStructure.getPixel(i, j);
-			newImageDataStructure.paintPixel(i, j, pixel);
-		}
-	}
-	// paint second image:
-	for (int i = a.GetHeight(); i < newHeight; i++)
-	{
-		for (int j = newWidth; j < newWidth; j++)
-		{
-			Pixel pixel = a.m_imageDataStructure.getPixel(i, j);
-			newImageDataStructure.paintPixel(i, j, pixel);
-		}
-	}
-	Image newImage = Image(newHeight, newWidth);
-	newImage.m_imageDataStructure = newImageDataStructure;
-	return newImage;
-}
-*/
+
 Image operator+=(Image& a, const Image& b)
 {
 	a = a+b;
@@ -218,7 +188,6 @@ Image operator*(const Image& a, unsigned int n)
 {
 	
 	Image finalImage = a;
-	//if (n == 1) return finalImage;
 	for (int i = 1; i < n; i++)
 	{
 		finalImage += a;
@@ -250,49 +219,3 @@ Image operator~(const Image& a)
 	}
 	return temp;
 }
-/*
-Image operator&(const Image& a, const Image& b)
-{
-	int newHeight = std::min(a.GetHeight(), b.GetHeight());
-	int newWidth = std::min(a.GetWidth(), b.GetWidth());
-	ImageDataStructure newImageDataStructure = ImageDataStructure(newHeight, newWidth);
-	for (int i = 0; i < newHeight; i++)
-	{
-		for (size_t j = 0; j < newWidth; j++)
-		{
-			Pixel pixel = a.m_imageDataStructure.getPixel(i, j) & b.m_imageDataStructure.getPixel(i, j);
-			newImageDataStructure.paintPixel(i, j, pixel);
-		}
-	}
-	Image newImage = Image(newHeight, newWidth);
-	newImage.m_imageDataStructure = newImageDataStructure;
-	return newImage;
-}
-
-*/
-/*
-
-Image operator|(const Image& a, const Image& b)
-{
-	int newHeight = std::max(a.GetHeight(), b.GetHeight());
-	int newWidth = std::max(a.GetWidth(), b.GetWidth());
-	ImageDataStructure newImageDataStructure = ImageDataStructure(newHeight, newWidth);
-	for (int i = 0; i < newHeight; i++)
-	{
-		for (int j = 0; j < newWidth; j++)
-		{
-			if (i < a.GetHeight() && i < b.GetHeight() && j < a.GetWidth() && j < b.GetWidth()) {
-				Pixel pixelToPaint = a.m_imageDataStructure.getPixel(i, j) | b.m_imageDataStructure.getPixel(i, j);
-				newImageDataStructure.paintPixel(i, j, pixelToPaint);
-
-			}
-			else {
-				newImageDataStructure.paintPixel(i, j, Pixel());
-			}
-		}
-	}
-	Image newImage(newHeight, newWidth);
-	newImage.m_imageDataStructure = newImageDataStructure;
-	return newImage;
-}
-*/

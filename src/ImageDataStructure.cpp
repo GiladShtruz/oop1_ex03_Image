@@ -39,43 +39,12 @@ ImageDataStructure& ImageDataStructure::operator=(const ImageDataStructure& othe
 	}
 	return *this;
 }
-//ImageDataStructure& ImageDataStructure::operator=(const ImageDataStructure& other)
-// 
-//{
-//	if (this != &other)
-//	{
-//		this->cleanPixel();
-//		ImageDataStructure temp(other);
-//		return temp;
-//	}
-//	ImageDataStructure temp = ImageDataStructure(other);
-//	return temp;
-//}
+
 ImageDataStructure::~ImageDataStructure()
 {
 	cleanPixel();
 }
-//
-//void ImageDataStructure::paintPixel(int row, int col, Pixel pixel)
-//{
-//	m_pixels[row][col] = pixel;
-//}
 
-/*void ImageDataStructure::paintAll(ImageDataStructure imageDataStructure)
-{
-	for (int i = 0; i < m_height; i++)
-	{
-		for (int j = 0; j < m_width; j++)
-		{
-			paintPixel(i, j, imageDataStructure.getPixel(i, j));
-		}
-	}
-}*/
-
-//Pixel ImageDataStructure::getPixel(int row, int col) const
-//{
-//	return m_pixels[row][col];
-//}
 
 Pixel** ImageDataStructure::cloneImage(const ImageDataStructure& other)
 {
